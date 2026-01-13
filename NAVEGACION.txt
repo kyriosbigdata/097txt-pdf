@@ -1,0 +1,231 @@
+════════════════════════════════════════════════════════════════
+  PROYECTO: 097txt-pdf
+  DESCRIPCIÓN: Convertidor de TXT a PDF con detección automática de encoding
+  TECH: Node.js, PDFKit, iconv-lite
+════════════════════════════════════════════════════════════════
+
+📁 ESTRUCTURA DEL PROYECTO:
+──────────────────────────────────────────────────────────────
+
+  📄 txt-pdf.mjs                  → Script de conversión
+
+  📄 package.json                 → Dependencias (pdfkit, iconv-lite)
+
+  📄 [archivo].txt                → Ejemplo de entrada (TXT)
+  📄 [archivo].pdf                → Ejemplo de salida (PDF)
+
+
+🎯 ¿QUÉ HACE?
+──────────────────────────────────────────────────────────────
+
+Convierte archivos de texto plano (.txt) a PDF (.pdf) con:
+
+  ✓ Detección automática de encoding (UTF-8, UTF-16 LE/BE)
+  ✓ Normalización de saltos de línea
+  ✓ Limpieza de caracteres especiales corruptos
+  ✓ Fuente legible y formato profesional
+  ✓ Preservación de estructura del texto
+
+
+🚀 CÓMO USAR:
+──────────────────────────────────────────────────────────────
+
+  1. CONFIGURACIÓN:
+     Edita en txt-pdf.mjs:
+     
+     const INPUT_TXT_PATH = "./tu-archivo.txt"
+     const OUTPUT_PDF_PATH = "./tu-archivo.pdf"
+
+  2. EJECUTAR:
+     node txt-pdf.mjs
+
+  3. VER RESULTADO:
+     Archivo PDF generado en OUTPUT_PDF_PATH
+
+
+⚙️ CONFIGURACIÓN (en txt-pdf.mjs):
+──────────────────────────────────────────────────────────────
+
+  const INPUT_TXT_PATH = "./08inde-SitemapRobotsTxt.txt"
+    → Ruta del archivo TXT de entrada
+    → Debe existir en el proyecto
+
+  const OUTPUT_PDF_PATH = "./08inde-SitemapRobotsTxt.pdf"
+    → Ruta donde guardar el PDF
+
+
+🔧 CARACTERÍSTICAS TÉCNICAS:
+──────────────────────────────────────────────────────────────
+
+  DETECCIÓN DE ENCODING:
+  ──────────────────────
+  • UTF-8 (con BOM): 0xEF 0xBB 0xBF
+  • UTF-16 LE: 0xFF 0xFE
+  • UTF-16 BE: 0xFE 0xFF
+  • Default: UTF-8 (seguro para archivos modernos)
+
+  NORMALIZACIÓN:
+  ──────────────
+  • Elimina líneas vacías múltiples (max 1)
+  • Convierte CRLF → LF
+  • Limpia caracteres corruptos
+
+
+📤 SALIDA PDF:
+──────────────────────────────────────────────────────────────
+
+  Formato:
+  • Fuente: Helvetica (legible en todos lados)
+  • Tamaño fuente: 10 pt
+  • Tamaño papel: Carta (8.5" x 11")
+  • Márgenes: 40 pt (0.56")
+  • Saltos de línea: preservados
+  • Párrafos: respetados
+
+
+📦 DEPENDENCIAS:
+──────────────────────────────────────────────────────────────
+
+  - pdfkit (v0.17.2+)     → Generación de PDF
+  - iconv-lite (v0.7.1+)  → Conversión de encodings
+
+
+💡 CASOS DE USO:
+──────────────────────────────────────────────────────────────
+
+  ✓ Convertir reportes de texto a PDF
+  
+  ✓ Generar documentos desde logs o salidas de comandos
+  
+  ✓ Archivar listados o inventarios como PDF
+  
+  ✓ Crear PDFs desde exports de sistemas legacy
+  
+  ✓ Preservar formato de archivos de texto estructurados
+
+
+⚠️ CONSIDERACIONES:
+──────────────────────────────────────────────────────────────
+
+  • Archivo TXT debe existir antes de ejecutar
+  
+  • Encoding se detecta automáticamente (no requiere configuración)
+  
+  • Caracteres especiales se preservan según encoding
+  
+  • Líneas muy largas se ajustan automáticamente
+  
+  • PDF resultante es text-based (copyeable, searchable)
+  
+  • No incluye imágenes o formatos complejos
+  
+  • Requiere Node.js 14+
+
+
+💾 EJEMPLO DE EJECUCIÓN:
+──────────────────────────────────────────────────────────────
+
+  $ node txt-pdf.mjs
+  
+  ✅ Leyendo archivo: ./08inde-SitemapRobotsTxt.txt
+  ✅ Encoding detectado: UTF-8
+  ✅ Normalizando líneas...
+  ✅ Generando PDF...
+  ✅ PDF guardado: ./08inde-SitemapRobotsTxt.pdf
+
+
+📝 FUNCIONES PRINCIPALES:
+──────────────────────────────────────────────────────────────
+
+  detectEncodingFromBOM(buffer):
+    → Detecta encoding por BOM (Byte Order Mark)
+    → Retorna: "utf8", "utf16-le", "utf16-be"
+
+  normalizeLineEndings(text):
+    → Convierte todos los saltos de línea a \n
+    → Elimina múltiples saltos en blanco
+    → Limpia caracteres corruptos
+
+  txtToPdf(inputPath, outputPath):
+    → Función principal
+    → Lee TXT, detecta encoding
+    → Genera PDF
+    → Guarda en ruta especificada
+
+
+🔍 EXTENSIBILIDAD:
+──────────────────────────────────────────────────────────────
+
+  Puedes editar para:
+  
+  • Cambiar fuente (edita .font() en PDFDocument)
+  • Ajustar tamaño de fuente (por defecto 10)
+  • Modificar márgenes (por defecto 40)
+  • Añadir encabezados/pies de página
+  • Cambiar orientación (portrait/landscape)
+  • Añadir metadatos del PDF
+  • Generar múltiples archivos en batch
+
+
+🎯 FLUJO TÍPICO:
+──────────────────────────────────────────────────────────────
+
+  1. Preparar archivo .txt
+     (de cualquier fuente)
+
+  2. Colocar en proyecto
+  
+  3. Editar INPUT_TXT_PATH en txt-pdf.mjs
+  
+  4. Editar OUTPUT_PDF_PATH si es necesario
+  
+  5. node txt-pdf.mjs
+  
+  6. Abrir archivo PDF generado
+  
+  7. Distribuir/archivar
+
+
+⚠️ PROBLEMAS COMUNES:
+──────────────────────────────────────────────────────────────
+
+  Caracteres corruptos en PDF:
+    → Archivo TXT tiene encoding mixto
+    → Solución: Reconvertir TXT a UTF-8 puro
+
+  Líneas muy largas sin ajuste:
+    → PDFKit ajusta automáticamente
+    → Si sigue, editar línea 85 (fontSize)
+
+  PDF vacío o no genera:
+    → Verificar que archivo TXT existe
+    → Verificar permisos de lectura/escritura
+    → Revisar consola para errores
+
+  Símbolos especiales no se ven bien:
+    → Encoding detección automática
+    → Probar con archivo UTF-8 válido
+
+
+⚙️ PARÁMETROS AVANZADOS (PARA EDITAR):
+──────────────────────────────────────────────────────────────
+
+  Dentro de txt-pdf.mjs:
+
+  // Cambiar fuente
+  pdf.font("Times-Roman")
+
+  // Cambiar tamaño
+  pdf.fontSize(12)
+
+  // Cambiar márgenes
+  const margin = 50  // aumenta para más espacio
+
+  // Tamaño papel (landscape)
+  const doc = new PDFDocument({ size: 'Letter', layout: 'landscape' })
+
+  // Añadir título
+  pdf.fontSize(14).font("Helvetica-Bold").text("Mi Documento")
+
+
+════════════════════════════════════════════════════════════════
